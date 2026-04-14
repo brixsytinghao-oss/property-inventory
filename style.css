@@ -1,0 +1,153 @@
+/* 1. Global Variables & Reset */
+:root {
+    --primary: #2563eb;    /* Royal Blue */
+    --secondary: #64748b;  /* Slate */
+    --success: #22c55e;    /* Emerald */
+    --warning: #f59e0b;    /* Amber */
+    --danger: #ef4444;     /* Rose */
+    --bg-light: #f8fafc;
+    --sidebar-dark: #0f172a;
+    --white: #ffffff;
+    --transition: all 0.3s ease;
+}
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    background-color: var(--bg-light);
+    font-family: 'Poppins', sans-serif; /* Clean corporate font */
+    display: flex;
+    min-height: 100vh;
+    color: var(--sidebar-dark);
+}
+
+/* 2. Professional Sidebar */
+.sidebar {
+    width: 260px;
+    height: 100vh;
+    background: var(--sidebar-dark);
+    color: var(--white);
+    position: fixed;
+    padding: 24px;
+    display: flex;
+    flex-direction: column;
+    z-index: 1000;
+}
+
+.sidebar h4 {
+    font-family: 'Bebas Neue', cursive; /* Professional branding font */
+    letter-spacing: 2px;
+    font-size: 1.5rem;
+}
+
+.nav-link {
+    color: #94a3b8 !important;
+    padding: 12px 15px;
+    border-radius: 8px;
+    margin-bottom: 5px;
+    transition: var(--transition);
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.nav-link:hover, .nav-link.active {
+    background: rgba(37, 99, 235, 0.1);
+    color: var(--white) !important;
+    transform: translateX(5px);
+}
+
+.nav-link.active {
+    background: var(--primary);
+}
+
+/* 3. Main Content Area */
+.main-content {
+    margin-left: 260px; /* Matches sidebar width */
+    width: calc(100% - 260px);
+    padding: 40px;
+}
+
+/* 4. Metric Cards (Dashboard Stats) */
+.stat-card {
+    background: var(--white);
+    border: none;
+    border-radius: 16px;
+    padding: 24px;
+    transition: var(--transition);
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.05);
+    border-bottom: 4px solid transparent;
+}
+
+.stat-card:hover {
+    transform: translateY(-8px);
+    box-shadow: 0 12px 20px rgba(0, 0, 0, 0.1);
+}
+
+.stat-card.total { border-bottom-color: var(--primary); }
+.stat-card.available { border-bottom-color: var(--success); }
+.stat-card.maintenance { border-bottom-color: var(--warning); }
+
+/* 5. Inventory Table Card */
+.inventory-table-card {
+    background: var(--white);
+    border-radius: 20px;
+    overflow: hidden;
+    box-shadow: 0 10px 25px rgba(0,0,0,0.03);
+    margin-top: 20px;
+    border: 1px solid rgba(0,0,0,0.05);
+}
+
+.table {
+    margin-bottom: 0;
+}
+
+.table thead {
+    background-color: #f8fafc;
+}
+
+.table thead th {
+    padding: 18px;
+    font-size: 0.75rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    color: var(--secondary);
+    border-bottom: 1px solid #e2e8f0;
+}
+
+.table tbody td {
+    padding: 18px;
+    vertical-align: middle;
+    font-size: 0.9rem;
+    border-bottom: 1px solid #f1f5f9;
+}
+
+/* 6. Professional Status Badges */
+.status-badge {
+    padding: 6px 14px;
+    border-radius: 50px;
+    font-size: 0.75rem;
+    font-weight: 600;
+    display: inline-block;
+}
+
+.bg-success-light { background: #dcfce7; color: #166534; }
+.bg-warning-light { background: #fef3c7; color: #92400e; }
+.bg-danger-light { background: #fee2e2; color: #991b1b; }
+.bg-primary-light { background: #dbeafe; color: #1e40af; }
+
+/* 7. Action Buttons */
+.btn-action {
+    padding: 6px 12px;
+    border-radius: 8px;
+    font-size: 0.85rem;
+    font-weight: 500;
+    transition: var(--transition);
+}
+
+.btn-edit { background: #f1f5f9; color: var(--sidebar-dark); border: none; }
+.btn-edit:hover { background: #e2e8f0; }

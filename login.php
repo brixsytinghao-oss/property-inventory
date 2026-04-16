@@ -61,8 +61,8 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
 <body>
     <div class="login-card">
         <div class="text-center mb-4">
-            <h3 class="fw-bold text-primary m-0">ASSET<span class="text-dark">FLOW</span></h3>
-            <p class="text-muted small">Enter credentials to access the system</p>
+                <img src="includes/logo2.png" alt="Logo" class="img-fluid" style="max-width: 100%;">
+        <p class="text-muted small">Enter credentials to access the system</p>
         </div>
 
         <?php if(isset($error)): ?>
@@ -84,7 +84,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
                 <input type="password" 
                        name="password" 
                        class="form-control" 
-                       placeholder="••••••••" 
+                       placeholder="" 
                        autocomplete="new-password" 
                        required>
             </div>

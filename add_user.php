@@ -12,7 +12,7 @@ include 'includes/sidebar.php';
 <div class="main-content">
     <div class="mb-4">
         <a href="users.php" class="text-decoration-none small text-secondary">
-            <i class="bi bi-arrow-left"></i> Return to Users
+            <i class="bi bi-arrow-left"></i> Back to Users
         </a>
         <h2 class="fw-bold mt-2">Add New System User</h2>
     </div>

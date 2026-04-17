@@ -18,25 +18,25 @@ SET time_zone = "+00:00";
 /*!40101 SET NAMES utf8mb4 */;
 
 --
--- Database: `property_db`
+-- Database: property_db
 --
 
 -- --------------------------------------------------------
 
 --
--- Table structure for table `categories`
+-- Table structure for table categories
 --
 
-CREATE TABLE `categories` (
-  `id` int(11) NOT NULL,
-  `category_name` varchar(50) NOT NULL
+CREATE TABLE categories (
+  id int(11) NOT NULL,
+  category_name varchar(50) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
--- Dumping data for table `categories`
+-- Dumping data for table categories
 --
 
-INSERT INTO `categories` (`id`, `category_name`) VALUES
+INSERT INTO categories (id, category_name) VALUES
 (2, 'Furniture'),
 (1, 'IT Hardware'),
 (4, 'Networking Equipment'),
@@ -45,23 +45,23 @@ INSERT INTO `categories` (`id`, `category_name`) VALUES
 -- --------------------------------------------------------
 
 --
--- Table structure for table `history_log`
+-- Table structure for table history_log
 --
 
-CREATE TABLE `history_log` (
-  `id` int(11) NOT NULL,
-  `user_id` int(11) NOT NULL,
-  `action_type` varchar(50) NOT NULL,
-  `property_code` varchar(50) DEFAULT NULL,
-  `details` text DEFAULT NULL,
-  `created_at` timestamp NOT NULL DEFAULT current_timestamp()
+CREATE TABLE history_log (
+  id int(11) NOT NULL,
+  user_id int(11) NOT NULL,
+  action_type varchar(50) NOT NULL,
+  property_code varchar(50) DEFAULT NULL,
+  details text DEFAULT NULL,
+  created_at timestamp NOT NULL DEFAULT current_timestamp()
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
--- Dumping data for table `history_log`
+-- Dumping data for table history_log
 --
 
-INSERT INTO `history_log` (`id`, `user_id`, `action_type`, `property_code`, `details`, `created_at`) VALUES
+INSERT INTO history_log (id, user_id, action_type, property_code, details, created_at) VALUES
 (1, 1, 'Edit', 'PROP-2026-019', 'Updated details for property: manok na gray', '2026-04-11 09:19:52'),
 (2, 1, 'Edit', 'PROP-2026-019', 'Updated details for property: manok na gray', '2026-04-11 09:32:22'),
 (3, 1, 'Edit', 'PROP-2026-019', 'Updated details for property: manok na gray', '2026-04-11 09:32:31'),
@@ -75,25 +75,25 @@ INSERT INTO `history_log` (`id`, `user_id`, `action_type`, `property_code`, `det
 -- --------------------------------------------------------
 
 --
--- Table structure for table `properties`
+-- Table structure for table properties
 --
 
-CREATE TABLE `properties` (
-  `id` int(11) NOT NULL,
-  `property_code` varchar(20) NOT NULL,
-  `item_name` varchar(100) NOT NULL,
-  `category_id` int(11) DEFAULT NULL,
-  `status` enum('Available','In Use','Maintenance','Disposed') DEFAULT 'Available',
-  `purchase_date` date DEFAULT NULL,
-  `value` decimal(10,2) DEFAULT NULL,
-  `created_at` timestamp NOT NULL DEFAULT current_timestamp()
+CREATE TABLE properties (
+  id int(11) NOT NULL,
+  property_code varchar(20) NOT NULL,
+  item_name varchar(100) NOT NULL,
+  category_id int(11) DEFAULT NULL,
+  status enum('Available','In Use','Maintenance','Disposed') DEFAULT 'Available',
+  purchase_date date DEFAULT NULL,
+  value decimal(10,2) DEFAULT NULL,
+  created_at timestamp NOT NULL DEFAULT current_timestamp()
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
--- Dumping data for table `properties`
+-- Dumping data for table properties
 --
 
-INSERT INTO `properties` (`id`, `property_code`, `item_name`, `category_id`, `status`, `purchase_date`, `value`, `created_at`) VALUES
+INSERT INTO properties (id, property_code, item_name, category_id, status, purchase_date, value, created_at) VALUES
 (1, 'PROP-2026-001', 'Dell XPS 15 Laptop', 1, 'In Use', '2026-01-15', 75000.00, '2026-04-11 07:06:37'),
 (2, 'PROP-2026-002', 'Ergonomic Office Chair', 2, 'Available', '2026-02-10', 8500.00, '2026-04-11 07:06:37'),
 (3, 'PROP-2026-003', 'Logitech MX Master 3S', 1, 'In Use', '2026-02-12', 5500.00, '2026-04-11 07:06:37'),
@@ -113,101 +113,102 @@ INSERT INTO `properties` (`id`, `property_code`, `item_name`, `category_id`, `st
 -- --------------------------------------------------------
 
 --
--- Table structure for table `users`
+-- Table structure for table users
 --
 
-CREATE TABLE `users` (
-  `id` int(11) NOT NULL,
-  `username` varchar(50) NOT NULL,
-  `password` varchar(255) NOT NULL,
-  `role` enum('Admin','Staff') DEFAULT 'Staff',
-  `last_login` datetime DEFAULT NULL
+CREATE TABLE users (
+  id int(11) NOT NULL,
+  username varchar(50) NOT NULL,
+  password varchar(255) NOT NULL,
+  role enum('Admin','Staff') DEFAULT 'Staff',
+  last_login datetime DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
--- Dumping data for table `users`
+-- Dumping data for table users
 --
 
-INSERT INTO `users` (`id`, `username`, `password`, `role`, `last_login`) VALUES
+INSERT INTO users (id, username, password, role, last_login) VALUES
 (1, 'admin', 'admin123', 'Admin', '2026-04-11 18:55:00'),
-(4, 'mathilda', '123', 'Staff', '2026-04-11 18:16:02');
+(4, 'brix', '123', 'Staff', '2026-04-11 18:16:02');
+
 
 --
 -- Indexes for dumped tables
 --
 
 --
--- Indexes for table `categories`
+-- Indexes for table categories
 --
-ALTER TABLE `categories`
-  ADD PRIMARY KEY (`id`),
-  ADD UNIQUE KEY `category_name` (`category_name`);
+ALTER TABLE categories
+  ADD PRIMARY KEY (id),
+  ADD UNIQUE KEY category_name (category_name);
 
 --
--- Indexes for table `history_log`
+-- Indexes for table history_log
 --
-ALTER TABLE `history_log`
-  ADD PRIMARY KEY (`id`),
-  ADD KEY `user_id` (`user_id`);
+ALTER TABLE history_log
+  ADD PRIMARY KEY (id),
+  ADD KEY user_id (user_id);
 
 --
--- Indexes for table `properties`
+-- Indexes for table properties
 --
-ALTER TABLE `properties`
-  ADD PRIMARY KEY (`id`),
-  ADD UNIQUE KEY `property_code` (`property_code`),
-  ADD KEY `category_id` (`category_id`);
+ALTER TABLE properties
+  ADD PRIMARY KEY (id),
+  ADD UNIQUE KEY property_code (property_code),
+  ADD KEY category_id (category_id);
 
 --
--- Indexes for table `users`
+-- Indexes for table users
 --
-ALTER TABLE `users`
-  ADD PRIMARY KEY (`id`),
-  ADD UNIQUE KEY `username` (`username`);
+ALTER TABLE users
+  ADD PRIMARY KEY (id),
+  ADD UNIQUE KEY username (username);
 
 --
 -- AUTO_INCREMENT for dumped tables
 --
 
 --
--- AUTO_INCREMENT for table `categories`
+-- AUTO_INCREMENT for table categories
 --
-ALTER TABLE `categories`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
+ALTER TABLE categories
+  MODIFY id int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
 
 --
--- AUTO_INCREMENT for table `history_log`
+-- AUTO_INCREMENT for table history_log
 --
-ALTER TABLE `history_log`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=10;
+ALTER TABLE history_log
+  MODIFY id int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=10;
 
 --
--- AUTO_INCREMENT for table `properties`
+-- AUTO_INCREMENT for table properties
 --
-ALTER TABLE `properties`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=21;
+ALTER TABLE properties
+  MODIFY id int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=21;
 
 --
--- AUTO_INCREMENT for table `users`
+-- AUTO_INCREMENT for table users
 --
-ALTER TABLE `users`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
+ALTER TABLE users
+  MODIFY id int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
 
 --
 -- Constraints for dumped tables
 --
 
 --
--- Constraints for table `history_log`
+-- Constraints for table history_log
 --
-ALTER TABLE `history_log`
-  ADD CONSTRAINT `history_log_ibfk_1` FOREIGN KEY (`user_id`) REFERENCES `users` (`id`);
+ALTER TABLE history_log
+  ADD CONSTRAINT history_log_ibfk_1 FOREIGN KEY (user_id) REFERENCES users (id);
 
 --
--- Constraints for table `properties`
+-- Constraints for table properties
 --
-ALTER TABLE `properties`
-  ADD CONSTRAINT `properties_ibfk_1` FOREIGN KEY (`category_id`) REFERENCES `categories` (`id`);
+ALTER TABLE properties
+  ADD CONSTRAINT properties_ibfk_1 FOREIGN KEY (category_id) REFERENCES categories (id);
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;

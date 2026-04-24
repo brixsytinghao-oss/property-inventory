@@ -2,75 +2,56 @@
 session_start();
 include 'db_connect.php';
 
-/**
- * 1. SECURITY & ROLE CHECK
- * Only logged-in users with the 'Admin' role can proceed.
- * This prevents unauthorized staff from adding assets.
- */
 if (!isset($_SESSION['user_id']) || $_SESSION['role'] !== 'Admin') {
     header("Location: inventory.php?error=unauthorized");
     exit();
 }
 
-/**
- * 2. FORM PROCESSING
- */
 if ($_SERVER['REQUEST_METHOD'] == 'POST') {
-    // Collect and sanitize data using null coalescing
     $code   = $_POST['property_code'] ?? '';
+    $serial = $_POST['serial_number'] ?? '';
     $name   = $_POST['item_name'] ?? '';
     $cat_id = !empty($_POST['category_id']) ? $_POST['category_id'] : null;
+    $office = $_POST['assigned_office'] ?? null;
+    $officer = $_POST['officer_in_charge'] ?? null;
+    $resp_user = !empty($_POST['responsible_user_id']) ? $_POST['responsible_user_id'] : null;
     $value  = !empty($_POST['value']) ? $_POST['value'] : 0;
     $date   = !empty($_POST['purchase_date']) ? $_POST['purchase_date'] : date('Y-m-d');
     $status = $_POST['status'] ?? 'Available';
 
-    // Basic Validation: Ensure mandatory fields are not empty
-    if (empty($code) || empty($name)) {
-        die("Error: Property Code and Item Name are required fields.");
+    if (empty($code) || empty($serial) || empty($name)) {
+        die("Error: Property Code, Serial Number and Item Name are required.");
     }
 
     try {
-        /**
-         * 3. DATABASE TRANSACTION
-         * This ensures that both the asset entry and the activity log succeed.
-         * If the log fails, the asset won't be added (Rollback).
-         */
         $pdo->beginTransaction();
 
-        // A. Insert the Asset into the properties table
-        $sql = "INSERT INTO properties (property_code, item_name, category_id, value, purchase_date, status) 
-                VALUES (?, ?, ?, ?, ?, ?)";
+        $sql = "INSERT INTO properties (property_code, serial_number, item_name, category_id, assigned_office, officer_in_charge, responsible_user_id, value, purchase_date, status) 
+                VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
         $stmt = $pdo->prepare($sql);
-        $stmt->execute([$code, $name, $cat_id, $value, $date, $status]);
+        $stmt->execute([$code, $serial, $name, $cat_id, $office, $officer, $resp_user, $value, $date, $status]);
 
-        // B. Log the "Add" Action to history_log for the audit trail
         $log_sql = "INSERT INTO history_log (user_id, action_type, property_code, details) 
                     VALUES (?, 'Add', ?, ?)";
         $log_stmt = $pdo->prepare($log_sql);
-        $log_stmt->execute([
-            $_SESSION['user_id'], 
-            $code, 
-            "Added new property: $name"
-        ]);
+        $log_stmt->execute([$_SESSION['user_id'], $code, "Added new property: $name (SN: $serial)"]);
 
-        // C. Finalize changes (Commit)
         $pdo->commit();
-
-        // Redirect back to inventory with a success message
         header("Location: inventory.php?msg=added");
         exit();
-
     } catch (PDOException $e) {
-        // If an error occurs (e.g., duplicate property code), undo all changes
-        if ($pdo->inTransaction()) {
-            $pdo->rollBack();
-        }
+        if ($pdo->inTransaction()) $pdo->rollBack();
         
-        // Output specific error for debugging
-        die("Database Error: " . $e->getMessage());
+        // Check for duplicate serial number error (MySQL error code 1062)
+        if ($e->errorInfo[1] == 1062) {
+            $error_msg = "Duplicate entry: The serial number '$serial' already exists. Please use a unique serial number.";
+            header("Location: add_asset.php?error=" . urlencode($error_msg));
+            exit();
+        } else {
+            die("Database Error: " . $e->getMessage());
+        }
     }
 } else {
-    // Redirect if the file is accessed directly without submitting the form
     header("Location: inventory.php");
     exit();
 }

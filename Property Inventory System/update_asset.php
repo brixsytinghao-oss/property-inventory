@@ -3,52 +3,43 @@ session_start();
 include 'db_connect.php';
 
 if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['id'])) {
-    
-    // 1. Capture all form data
     $id = $_POST['id'];
+    $serial = $_POST['serial_number'];
     $item_name = $_POST['item_name'];
     $category_id = $_POST['category_id'];
+    $office = $_POST['assigned_office'] ?? null;
+    $officer = $_POST['officer_in_charge'] ?? null;
+    $resp_user = !empty($_POST['responsible_user_id']) ? $_POST['responsible_user_id'] : null;
     $value = $_POST['value'];
     $purchase_date = $_POST['purchase_date'];
     $status = $_POST['status'];
 
     try {
-        // 2. Fetch the Property Code first (needed for the history log)
         $code_query = $pdo->prepare("SELECT property_code FROM properties WHERE id = ?");
         $code_query->execute([$id]);
         $property_code = $code_query->fetchColumn();
 
-        // 3. Update the Asset Details
         $sql = "UPDATE properties SET 
+                serial_number = ?,
                 item_name = ?, 
                 category_id = ?, 
+                assigned_office = ?,
+                officer_in_charge = ?,
+                responsible_user_id = ?,
                 value = ?, 
                 purchase_date = ?, 
                 status = ? 
                 WHERE id = ?";
-        
         $stmt = $pdo->prepare($sql);
-        
-        if ($stmt->execute([$item_name, $category_id, $value, $purchase_date, $status, $id])) {
-            
-            // 4. INSERT INTO HISTORY LOG (The Combination)
-            $log_sql = "INSERT INTO history_log (user_id, action_type, property_code, details) 
-                        VALUES (?, ?, ?, ?)";
-            $log_stmt = $pdo->prepare($log_sql);
-            $log_stmt->execute([
-                $_SESSION['user_id'], 
-                'Edit', 
-                $property_code, 
-                "Updated details for property: $item_name"
-            ]);
+        $stmt->execute([$serial, $item_name, $category_id, $office, $officer, $resp_user, $value, $purchase_date, $status, $id]);
 
-            // Redirect with success message
-            header("Location: inventory.php?status=updated");
-        } else {
-            echo "Error: Could not update the property record.";
-        }
+        $log_sql = "INSERT INTO history_log (user_id, action_type, property_code, details) 
+                    VALUES (?, 'Edit', ?, ?)";
+        $log_stmt = $pdo->prepare($log_sql);
+        $log_stmt->execute([$_SESSION['user_id'], $property_code, "Updated details for property: $item_name"]);
+
+        header("Location: inventory.php?status=updated");
         exit();
-
     } catch (PDOException $e) {
         die("Database Error: " . $e->getMessage());
     }

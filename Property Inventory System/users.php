@@ -25,6 +25,31 @@ $stmt = $pdo->query("SELECT id, username, role, last_login FROM users ORDER BY u
 ?>
 
 <div class="main-content">
+    <!-- Alert Messages for Success / Error -->
+    <?php if (isset($_GET['status'])): ?>
+        <div class="alert alert-success alert-dismissible fade show mb-4" role="alert">
+            <?php 
+            if ($_GET['status'] == 'roleupdated') echo '✅ User role updated successfully.';
+            if ($_GET['status'] == 'userdeleted') echo '🗑️ User account has been deleted.';
+            if ($_GET['status'] == 'created') echo '👤 New user account created successfully.';
+            ?>
+            <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+        </div>
+    <?php endif; ?>
+
+    <?php if (isset($_GET['error'])): ?>
+        <div class="alert alert-danger alert-dismissible fade show mb-4" role="alert">
+            <?php 
+            if ($_GET['error'] == 'cantselfedit') echo '⚠️ You cannot change your own role from this page.';
+            if ($_GET['error'] == 'cantdeleteyourself') echo '⚠️ You cannot delete your own account.';
+            if ($_GET['error'] == 'usernotfound') echo '⚠️ User not found.';
+            if ($_GET['error'] == 'deletefailed') echo '⚠️ Failed to delete user. Please try again.';
+            if ($_GET['error'] == 'unauthorized') echo '⚠️ Access denied. Admins only.';
+            ?>
+            <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+        </div>
+    <?php endif; ?>
+
     <div class="d-flex justify-content-between align-items-center mb-4">
         <div>
             <h2 class="fw-bold m-0">User Access Control</h2>

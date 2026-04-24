@@ -1,0 +1,12 @@
+C:\Users\user\source\repos\Property Inventory\Property Inventory\bin\Debug\Property Inventory.exe.config
+C:\Users\user\source\repos\Property Inventory\Property Inventory\bin\Debug\Property Inventory.exe
+C:\Users\user\source\repos\Property Inventory\Property Inventory\bin\Debug\Property Inventory.pdb
+C:\Users\user\source\repos\Property Inventory\Property Inventory\bin\Debug\Property Inventory.xml
+C:\Users\user\source\repos\Property Inventory\Property Inventory\obj\Debug\Property Inventory.vbproj.AssemblyReference.cache
+C:\Users\user\source\repos\Property Inventory\Property Inventory\obj\Debug\Property_Inventory.Form1.resources
+C:\Users\user\source\repos\Property Inventory\Property Inventory\obj\Debug\Property_Inventory.Resources.resources
+C:\Users\user\source\repos\Property Inventory\Property Inventory\obj\Debug\Property Inventory.vbproj.GenerateResource.cache
+C:\Users\user\source\repos\Property Inventory\Property Inventory\obj\Debug\Property Inventory.vbproj.CoreCompileInputs.cache
+C:\Users\user\source\repos\Property Inventory\Property Inventory\obj\Debug\Property Inventory.exe
+C:\Users\user\source\repos\Property Inventory\Property Inventory\obj\Debug\Property Inventory.xml
+C:\Users\user\source\repos\Property Inventory\Property Inventory\obj\Debug\Property Inventory.pdb
